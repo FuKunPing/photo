@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended:true}));
 
 // 设置根目录
 app.use(express.static('./public'));
-app.use(express.static('./uploads'));
+// app.use(express.static('./uploads'));//图片设置的不是绝对路径就设置这个
 
 // 处理 / 请求,展示相册首页
 app.get('/',function(req,res){
