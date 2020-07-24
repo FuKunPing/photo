@@ -1,6 +1,6 @@
 // 创建服务器
 const express=require("express");
-// 引用路由
+// 引用整合的路由
 const router=require('./route/index.js');
 var app=express();
 app.listen(4000);
@@ -26,7 +26,7 @@ app.get('/',function(req,res){
 
 // 处理相册相关的请求(所有以/dir开头的请求)
 // 引用路由，让路由处理dir请求
-// app.use('/dir',router.dir);
+app.use('/dir',router.dir);
 
 
 // 处理图片相关的请求(所有以/pic开头的请求)
