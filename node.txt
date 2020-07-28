@@ -15,6 +15,7 @@ cnpm i ejs --save
 cnpm i formidable --save
 cnpm i silly-datetime --save
 cnpm i rimraf --save
+cnpm i mongoose -S
 
 2.搭建项目结构
     node_modules/
