@@ -1,7 +1,7 @@
 // 创建服务器
 const express=require("express");
 // 引用整合的路由
-const router=require('./route/index.js');
+const router=require('./route');
 var app=express();
 app.listen(4000);
 
@@ -12,7 +12,6 @@ app.set('view engine','ejs');
 // 设置post请求参数的解析方式
 //application/x-www-form-urlencoded
 app.use(express.urlencoded({extended:true}));
-
 
 // 设置根目录
 app.use(express.static('./public'));
@@ -28,9 +27,8 @@ app.get('/',function(req,res){
 // 引用路由，让路由处理dir请求
 app.use('/dir',router.dir);
 
-
 // 处理图片相关的请求(所有以/pic开头的请求)
-// app.use('/pic',router.pic);
+app.use('/pic',router.pic);
 
 // 处理所有其他错误的请求地址
 // 错误请求跳转到渲染的错误页面
