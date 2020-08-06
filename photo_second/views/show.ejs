@@ -15,21 +15,18 @@
       text-align: center;
       text-decoration: underline;
     }
-    .allDir{
+    .pics{
       width: 100%;
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
     }
-    .dir{
+    .pic{
       width: 30%;
-      text-align: center;
+      margin: 10px;
     }
     img{
       width: 100%;
-    }
-    h4{
-      text-align: center;
     }
   </style>
 </head>
@@ -54,21 +51,16 @@
       </div>
     </div>
   </nav>
-  <div class="allDir">
-    <!-- dirs是一个对象数组，该对象有name -->
-    <% for(var i=0;i<dirs.length;i++){ %>
-    <div class="dir">
-      <a href="/pic/show?dirName=<%= dirs[i].name %>">
-        <img src="/imgs/dir.jpg">
-        <h4><%= dirs[i].name %></h4>
-      </a>
-      <!-- <a href="javascript:;" onclick="send(this)">删除</a> -->
+  <div class="pics">
+    <% for(var i=0;i<pics.length;i++){ %>
+    <div class="pic">
+      <img src="/<%= pics[i].dir %>/<%= pics[i].name %>">
     </div>
     <% } %>
   </div>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.js"></script>
 
-
+ 
 </body>
 </html>
