@@ -2,6 +2,7 @@ const express=require('express');
 const route=express.Router();
 const {Dir}=require('../model/db');
 const {SUCCESS,FAILED}=require('../../status.js');
+const fs=require('fs');
 
 
 // 处理 /dir 请求，显示服务器上所有的相册
@@ -18,6 +19,61 @@ route.get('/',function(req,res){
       res.render('index',{dirs:dirs})
     })
   })
+
+// 处理 get方式的 /dir/mkdir 请求，跳转到新建相册页面
+route.get('/mkdir',function(req,res){
+	res.render('create');
+});
+
+// post /dir/mkdir 创建相册ajax
+route.post('/mkdir',function(req,res){
+	var dirName=req.body.dirName;
+	if(!dirName){
+		res.send({status:FAILED,msg:"相册名不合法"});
+		return ;
+	}
+	// fs模块创建文件夹，保存进数据库
+	fs.mkdir('./uploads/'+dirName,function(err){
+		if(err){
+			console.log(err);
+			res.send({status:FAILED,msg:"创建失败"});
+			return ;
+		}
+		// 创建成功，保存数据库
+		var o=new Dir({name:dirName});
+		o.save(function(err,d){
+			res.send({status:SUCCESS,msg:"创建成功"});
+		})
+	});
+})
+
+
+
+
+// get  /dir/check 获取传递过来的参数并检查文件夹名称是否已经存在ajax
+route.get('/check',function(req,res){
+	var dirName=req.query.dirName;
+	if(!dirName){
+		res.send({status:FAILED,msg:"文件夹名称不能为空"});
+		return ;
+	}
+	// 判断数据库里的dirName是否已经存在
+	Dir.find({name:dirName},function(err,dirs){
+		if(err){
+			console.log(err);
+			res.send({status:FAILED,msg:"网络波动"});
+			return ;
+		}
+		console.log(dirs);
+		// 打印了说明查找到了
+		if(dirs.length>0){
+			res.send({status:FAILED,msg:"文件夹已存在"});
+		}else{
+			res.send({status:SUCCESS,msg:"可以使用"});
+		}
+	})
+})
+
 
 
 
