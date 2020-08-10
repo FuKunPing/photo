@@ -62,12 +62,39 @@
         <img src="/imgs/dir.jpg">
         <h4><%= dirs[i].name %></h4>
       </a>
-      <!-- <a href="javascript:;" onclick="send(this)">删除</a> -->
+      <a href="javascript:;" onclick="send(this)">删除</a>
     </div>
     <% } %>
   </div>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.js"></script>
+  <script>
+	//  给删除按钮添加点击事件，点击发送请求
+	function send(i){
+		// 获取相册名
+		var dirName=$(i).prev().find("h4").html();
+		console.log(dirName);
+		var res=confirm("确定删除相册:"+dirName+"吗？");
+		if(!res){
+			// 点击取消
+			return ;
+		}
+		// 发送请求
+		$.ajax({
+			url:"/dir/delete?dirName="+dirName,
+			success:function(result){
+				alert(result.msg);
+				if(result.status==0){
+					// 删除成功
+					$(i).parent().remove();
+				}
+			}
+		});
+	}
+
+
+
+  </script>
 
 
 </body>

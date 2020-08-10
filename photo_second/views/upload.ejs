@@ -15,18 +15,14 @@
       text-align: center;
       text-decoration: underline;
     }
-    .pics{
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    .upload{
+      padding:0 10% ;
     }
-    .pic{
-      width: 30%;
-      margin: 10px;
+    h2{
+      color: slategrey;
     }
-    img{
-      width: 40%;
+    .form-group{
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -51,16 +47,28 @@
       </div>
     </div>
   </nav>
-  <div class="pics">
-    <% for(var i=0;i<pics.length;i++){ %>
-    <div class="pic">
-      <img src="/<%= pics[i].dir %>/<%= pics[i].name %>">
-    </div>
-    <% } %>
+  
+  <div class="upload">
+    <h2>上传图片</h2>
+    <form action="/pic/upload" method="POST" enctype="multipart/form-data">
+      <h4>请选择相册：</h4>
+      <select name="dirName" class="form-control">
+        <% for(var i=0;i<dirs.length;i++){ %>
+        <option value="<%= dirs[i].name %>"><%= dirs[i].name %></option>
+        <% } %>
+      </select>
+      <div class="form-group">
+        <label for="exampleInputFile">请选择图片</label>
+        <input type="file" id="exampleInputFile" name="pic">
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-info col-xs-4 col-xs-offset-4">
+      </div>
+    </form>
   </div>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.js"></script>
 
- 
+  
 </body>
 </html>

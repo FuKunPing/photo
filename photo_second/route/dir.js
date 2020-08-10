@@ -3,6 +3,7 @@ const route=express.Router();
 const {Dir}=require('../model/db');
 const {SUCCESS,FAILED}=require('../../status.js');
 const fs=require('fs');
+const rf=require("rimraf");
 
 
 // 处理 /dir 请求，显示服务器上所有的相册
@@ -47,9 +48,6 @@ route.post('/mkdir',function(req,res){
 	});
 })
 
-
-
-
 // get  /dir/check 获取传递过来的参数并检查文件夹名称是否已经存在ajax
 route.get('/check',function(req,res){
 	var dirName=req.query.dirName;
@@ -71,6 +69,27 @@ route.get('/check',function(req,res){
 		}else{
 			res.send({status:SUCCESS,msg:"可以使用"});
 		}
+	})
+});
+
+// 处理/dir/delete 请求，删除相册 ajax
+route.get('/delete',function(req,res){
+	var dirName=req.query.dirName.trim();
+	if(!dirName){
+		res.send({status:FAILED,msg:"参数不合法"});
+		return ;
+	}
+	// 删除非空文件夹，使用rimraf模块
+	rf('./uploads/'+dirName,function(err){
+		if(err){
+			console.log(err);
+			res.send({status:FAILED,msg:"删除失败"});
+			return ;
+		}
+		// 删除文件夹成功，去删除数据库中的记录
+		Dir.deleteOne({name:dirName},function(err,raw){
+			res.send({status:SUCCESS,msg:"删除成功"});
+		})		
 	})
 })
 
