@@ -37,9 +37,9 @@ route.post('/upload',function(req,res){
             res.render('error',{errMsg:"上传图片失败"});
             return ;
         }
-        var dirName=fields.dirName;
-        var pic=files.pic;
-        var name=pic.name;
+        var dirName=fields.dirName;//文本域的值(相册名)
+        var pic=files.pic;//图片信息
+        var name=pic.name;//图片名
         var oldPath=pic.path;
         var newPath='./uploads/'+dirName+'/'+name;
         fs.rename(oldPath,newPath,function(err){
